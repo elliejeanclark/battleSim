@@ -1,3 +1,5 @@
+using System.Collections;
+
 public class Ship {
     public string Name { get; set; }
     public ShipType Type { get; set; }
@@ -7,11 +9,15 @@ public class Ship {
     public int MaxShieldStrength { get; set; }
     public int Speed { get; set; }
     public int Size { get; set; }
-    public int MissleLaunchers { get; set; }
-    public int EnergyWeaponBanks { get; set; }
+    public int NumMissleLaunchers { get; set; }
+    public int NumEnergyWeaponBanks { get; set; }
+    public ArrayList MissleWeapons { get; set; }
+    public ArrayList EnergyWeapons { get; set; }
 
-    public Ship(string name, string type) {
+    public Ship(string name, string type, ArrayList missleWeapons, ArrayList energyWeapons) {
         Name = name;
+        MissleWeapons = missleWeapons;
+        EnergyWeapons = energyWeapons;
         SetUpShipAttributes(type); 
     }
 
@@ -26,8 +32,8 @@ public class Ship {
                 MaxShieldStrength = 30;
                 Speed = 7;
                 Size = 1;
-                MissleLaunchers = 2;
-                EnergyWeaponBanks = 3;
+                NumMissleLaunchers = 2;
+                NumEnergyWeaponBanks = 3;
                 break;
             case "explorer":
                 Type = ShipType.Explorer;
@@ -37,8 +43,8 @@ public class Ship {
                 MaxShieldStrength = 120;
                 Speed = 3;
                 Size = 8;
-                MissleLaunchers = 2;
-                EnergyWeaponBanks = 2;
+                NumMissleLaunchers = 2;
+                NumEnergyWeaponBanks = 2;
                 break;
             case "freighter":
                 Type = ShipType.Freighter;
@@ -48,8 +54,8 @@ public class Ship {
                 MaxShieldStrength = 150;
                 Speed = 2;
                 Size = 8;
-                MissleLaunchers = 1;
-                EnergyWeaponBanks = 2;
+                NumMissleLaunchers = 1;
+                NumEnergyWeaponBanks = 2;
                 break;
             case "cruiser":
                 Type = ShipType.Cruiser;
@@ -59,8 +65,8 @@ public class Ship {
                 MaxShieldStrength = 100;
                 Speed = 7;
                 Size = 4;
-                MissleLaunchers = 1;
-                EnergyWeaponBanks = 2;
+                NumMissleLaunchers = 1;
+                NumEnergyWeaponBanks = 2;
                 break;
             case "destroyer":
                 Type = ShipType.Destroyer;
@@ -70,8 +76,8 @@ public class Ship {
                 MaxShieldStrength = 110;
                 Speed = 6;
                 Size = 8;
-                MissleLaunchers = 3;
-                EnergyWeaponBanks = 3;
+                NumMissleLaunchers = 3;
+                NumEnergyWeaponBanks = 3;
                 break;
             case "carrier":
                 Type = ShipType.Carrier;
@@ -81,8 +87,8 @@ public class Ship {
                 MaxShieldStrength = 100;
                 Speed = 2;
                 Size = 12;
-                MissleLaunchers = 2;
-                EnergyWeaponBanks = 3;
+                NumMissleLaunchers = 2;
+                NumEnergyWeaponBanks = 3;
                 break;
             case "cutter":
                 Type = ShipType.Cutter;
@@ -92,8 +98,8 @@ public class Ship {
                 MaxShieldStrength = 80;
                 Speed = 8;
                 Size = 3;
-                MissleLaunchers = 1;
-                EnergyWeaponBanks = 2;
+                NumMissleLaunchers = 1;
+                NumEnergyWeaponBanks = 2;
                 break;
             case "stealthcraft":
                 Type = ShipType.StealthCraft;
@@ -103,8 +109,8 @@ public class Ship {
                 MaxShieldStrength = 50;
                 Speed = 8;
                 Size = 1;
-                MissleLaunchers = 1;
-                EnergyWeaponBanks = 1;
+                NumMissleLaunchers = 1;
+                NumEnergyWeaponBanks = 1;
                 break;
             case "cargoship":
                 Type = ShipType.CargoShip;
@@ -114,8 +120,8 @@ public class Ship {
                 MaxShieldStrength = 100;
                 Speed = 5;
                 Size = 8;
-                MissleLaunchers = 1;
-                EnergyWeaponBanks = 2;
+                NumMissleLaunchers = 1;
+                NumEnergyWeaponBanks = 2;
                 break;
             default:
                 throw new ArgumentException("Invalid ship type");
