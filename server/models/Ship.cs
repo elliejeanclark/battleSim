@@ -128,9 +128,10 @@ public class Ship {
         }
     }
 
-    public void TakeDamage(WeaponType weaponType) {
-        int shieldDamage = 0;
-        int hullDamage = 0;
+    public void TakeDamage(Weapon weapon) {
+        WeaponType weaponType = weapon.Type;
+        int shieldDamage = weapon.ShieldDamage;
+        int hullDamage = weapon.HullDamage;
         Random random = new Random();
         int dodgeChance = random.Next(1, 21);
         dodgeChance += Speed;
@@ -141,40 +142,19 @@ public class Ship {
             dodgeChance -= (Size - 1) / 2;
         }
 
-        switch (weaponType) {
-            case WeaponType.Phaser:
-                shieldDamage = 15 + random.Next(0, 6);
-                dodgeChance -= 2;
-                break;
-            case WeaponType.QuantumTorpedoLauncher:
-                hullDamage = 20 + random.Next(5, 11);
-                break;
-            case WeaponType.PhotonTorpedoLauncher:
-                hullDamage = 15 + random.Next(0, 6);
-                break;
-            case WeaponType.EnergyLance:
-                shieldDamage = 10;
-                //chance to break a system increased
-                break;
-            case WeaponType.Disruptor:
-                shieldDamage = 10;
-                hullDamage = 10;
-                break;
-        }
-
         if (dodgeChance > 15) {
             Console.WriteLine($"{Name} dodged the attack!");
             return;
         }
         else {
-            if (ShieldStrength > 0) {
+            if (ShieldStrength > 0 && shieldDamage > 0) {
                 ShieldStrength -= shieldDamage;
                 if (ShieldStrength < 0) {
                     ShieldStrength = 0;
                 }
                 Console.WriteLine($"{Name} took {shieldDamage} damage to shields!");
             }
-            if (Health > 0){
+            if (Health > 0 && hullDamage > 0) {
                 Health -= hullDamage;
                 if (Health < 0) {
                     Health = 0;

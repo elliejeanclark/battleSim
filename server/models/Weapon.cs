@@ -1,15 +1,11 @@
 public class Weapon {
-    public string Name { get; set; }
-    public string Type { get; set; }
-    public int Damage { get; set; }
+    public WeaponType Type { get; set; }
+    public int HullDamage { get; set; }
+    public int ShieldDamage { get; set; }
     public int Range { get; set; }
     public int FireRate { get; set; }
 
-    public Weapon(string name, string type, int damage, int range, int fireRate) {
-        Name = name;
+    public Weapon(WeaponType type) {
         Type = type;
-        Damage = damage;
-        Range = range;
-        FireRate = fireRate;
     }
 }
