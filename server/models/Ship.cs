@@ -123,29 +123,58 @@ public class Ship {
     }
 
     public void TakeDamage(WeaponType weaponType) {
-        int damage = 0;
+        int shieldDamage = 0;
+        int hullDamage = 0;
         Random random = new Random();
-        int hitChance = random.Next(1, 21);
-        hitChance += Speed;
+        int dodgeChance = random.Next(1, 21);
+        dodgeChance += Speed;
         if (Size % 2 == 0) {
-            hitChance -= Size/2;
+            dodgeChance -= Size/2;
         }
         else {
-            hitChance -= (Size - 1) / 2;
+            dodgeChance -= (Size - 1) / 2;
         }
 
         switch (weaponType) {
             case WeaponType.Phaser:
-                damage = 10;
+                shieldDamage = 15;
+                dodgeChance -= 2;
                 break;
-            default:
-                damage = 5;
+            case WeaponType.QuantumTorpedoLauncher:
+                hullDamage = 30;
+                break;
+            case WeaponType.PhotonTorpedoLauncher:
+                hullDamage = 15;
+                break;
+            case WeaponType.EnergyLance:
+                shieldDamage = 10;
+                //chance to break a system increased
+                break;
+            case WeaponType.Disruptor:
+                shieldDamage = 10;
+                hullDamage = 10;
                 break;
         }
 
-        if (hitChance > 15) {
+        if (dodgeChance > 15) {
             Console.WriteLine($"{Name} dodged the attack!");
             return;
+        }
+        else {
+            if (ShieldStrength > 0) {
+                ShieldStrength -= shieldDamage;
+                if (ShieldStrength < 0) {
+                    ShieldStrength = 0;
+                }
+                Console.WriteLine($"{Name} took {shieldDamage} damage to shields!");
+            }
+            if (Health > 0){
+                Health -= hullDamage;
+                if (Health < 0) {
+                    Health = 0;
+                }
+                Console.WriteLine($"{Name} took {hullDamage} damage to hull!");
+            }
         }
     }
 }
