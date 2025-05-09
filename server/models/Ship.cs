@@ -121,4 +121,31 @@ public class Ship {
                 throw new ArgumentException("Invalid ship type");
         }
     }
+
+    public void TakeDamage(WeaponType weaponType) {
+        int damage = 0;
+        Random random = new Random();
+        int hitChance = random.Next(1, 21);
+        hitChance += Speed;
+        if (Size % 2 == 0) {
+            hitChance -= Size/2;
+        }
+        else {
+            hitChance -= (Size - 1) / 2;
+        }
+
+        switch (weaponType) {
+            case WeaponType.Phaser:
+                damage = 10;
+                break;
+            default:
+                damage = 5;
+                break;
+        }
+
+        if (hitChance > 15) {
+            Console.WriteLine($"{Name} dodged the attack!");
+            return;
+        }
+    }
 }
