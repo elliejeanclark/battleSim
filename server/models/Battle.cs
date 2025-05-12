@@ -14,6 +14,15 @@ public class Battle {
     }
 
     public void Attack(Ship attacker, Ship defender, Weapon weapon) {
+        if (Status != "In Progress") {
+            Console.WriteLine("Battle is not in progress.");
+            return;
+        }
+        else if (attacker.Name != ActivePlayer) {
+            Console.WriteLine($"It is not {attacker.Name}'s turn to attack.");
+            return;
+        }
+        
         int shieldDamage = weapon.ShieldDamage;
         int hullDamage = weapon.HullDamage;
         Random random = new Random();
@@ -36,8 +45,11 @@ public class Battle {
                 defender.ShieldStrength -= shieldDamage;
                 if (defender.ShieldStrength < 0) {
                     defender.ShieldStrength = 0;
+                    Console.WriteLine($"{defender.Name}'s shields are down!");
                 }
-                Console.WriteLine($"{defender.Name} took {shieldDamage} damage to shields!");
+                else {
+                    Console.WriteLine($"{defender.Name}'s shields took {shieldDamage} damage!");
+                }
             }
             else if (defender.ShieldStrength == 0) {
                 if (defender.Health > 0  && hullDamage > 0) {
@@ -45,24 +57,18 @@ public class Battle {
                     if (defender.Health < 0) {
                         defender.Health = 0;
                         Console.WriteLine($"{defender.Name} been destroyed!");
-                        endBattle(attacker);
+                        EndBattle(attacker);
                     }
                     else {
                         Console.WriteLine($"{defender.Name} took {hullDamage} damage to hull!");
                     }
                 }
             }
-            if (defender.Health > 0 && hullDamage > 0) {
-                defender.Health -= hullDamage;
-                if (defender.Health < 0) {
-                    defender.Health = 0;
-                }
-                Console.WriteLine($"{defender.Name} took {hullDamage} damage to hull!");
-            }
+            ActivePlayer = defender.Name;
         }
     }
 
-    public void endBattle(Ship attacker) {
+    public void EndBattle(Ship attacker) {
         Status = "Completed";
         WinnerName = attacker.Name;
         Console.WriteLine($"{attacker.Name} wins the battle!");
