@@ -1,4 +1,4 @@
-using System.Collections;
+using System.Collections.Generic;
 
 public class Ship {
     public string Name { get; set; }
@@ -11,11 +11,17 @@ public class Ship {
     public int Size { get; set; }
     public int NumMissleLaunchers { get; set; }
     public int NumEnergyWeaponBanks { get; set; }
-    public ArrayList MissleWeapons { get; set; }
-    public ArrayList EnergyWeapons { get; set; }
+    public List<Weapon> MissleWeapons { get; set; }
+    public List<Weapon> EnergyWeapons { get; set; }
 
-    public Ship(string name, string type, ArrayList missleWeapons, ArrayList energyWeapons) {
+    public Ship(string name, string type, List<Weapon> missleWeapons, List<Weapon> energyWeapons) {
         Name = name;
+        if (missleWeapons.Capacity > NumMissleLaunchers) {
+            throw new InvalidShipConfiguration("Too many missle weapons for this ship type.");
+        }
+        else if (energyWeapons.Capacity > NumEnergyWeaponBanks) {
+            throw new InvalidShipConfiguration("Too many energy weapons for this ship type.");
+        }
         MissleWeapons = missleWeapons;
         EnergyWeapons = energyWeapons;
         SetUpShipAttributes(type); 
@@ -124,7 +130,7 @@ public class Ship {
                 NumEnergyWeaponBanks = 2;
                 break;
             default:
-                throw new ArgumentException("Invalid ship type");
+                throw new InvalidShipConfiguration("Invalid ship type");
         }
     }
 }
