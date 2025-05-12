@@ -13,7 +13,7 @@ public class Battle {
         WinnerName = "";
     }
 
-    public void Attack(Ship attacker, Ship defender, Weapon weapon) {
+    public void TakeTurn(Ship attacker, Ship defender, Weapon Weapon) {
         if (Status != "In Progress") {
             Console.WriteLine("Battle is not in progress.");
             return;
@@ -22,7 +22,19 @@ public class Battle {
             Console.WriteLine($"It is not {attacker.Name}'s turn to attack.");
             return;
         }
-        
+        else if (Weapon.Cooldown != 0) {
+            Console.WriteLine($"That weapon needs {Weapon.Cooldown} turns before it can fire again.");
+            return;
+        }
+        else {
+            Attack(attacker, defender, Weapon);
+            ActivePlayer = defender.Name;
+            Weapon.Cooldown = Weapon.FireRate;
+            IncrementCooldown(attacker);
+        }
+    }
+
+    private void Attack(Ship attacker, Ship defender, Weapon weapon) {
         int shieldDamage = weapon.ShieldDamage;
         int hullDamage = weapon.HullDamage;
         Random random = new Random();
@@ -64,13 +76,25 @@ public class Battle {
                     }
                 }
             }
-            ActivePlayer = defender.Name;
         }
     }
 
-    public void EndBattle(Ship attacker) {
+    private void EndBattle(Ship attacker) {
         Status = "Completed";
         WinnerName = attacker.Name;
         Console.WriteLine($"{attacker.Name} wins the battle!");
+    }
+
+    private void IncrementCooldown(Ship ship) {
+        foreach (Weapon weapon in ship.MissleWeapons) {
+            if (weapon.Cooldown > 0) {
+                weapon.Cooldown--;
+            }
+        }
+        foreach (Weapon weapon in ship.EnergyWeapons) {
+            if (weapon.Cooldown > 0) {
+                weapon.Cooldown--;
+            }
+        }
     }
 }
