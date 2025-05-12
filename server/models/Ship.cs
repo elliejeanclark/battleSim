@@ -16,10 +16,10 @@ public class Ship {
 
     public Ship(string name, string type, List<Weapon> missleWeapons, List<Weapon> energyWeapons) {
         Name = name;
-        if (missleWeapons.Capacity > NumMissleLaunchers) {
+        if (missleWeapons.Count > NumMissleLaunchers) {
             throw new InvalidShipConfiguration("Too many missle weapons for this ship type.");
         }
-        else if (energyWeapons.Capacity > NumEnergyWeaponBanks) {
+        else if (energyWeapons.Count > NumEnergyWeaponBanks) {
             throw new InvalidShipConfiguration("Too many energy weapons for this ship type.");
         }
         MissleWeapons = missleWeapons;
