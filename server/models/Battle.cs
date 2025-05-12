@@ -13,7 +13,7 @@ public class Battle {
         WinnerName = "";
     }
 
-    public void TakeTurn(Ship attacker, Ship defender, Weapon Weapon) {
+    public void TakeTurn(Ship attacker, Ship defender, List<Weapon> Weapons) {
         if (Status != "In Progress") {
             Console.WriteLine("Battle is not in progress.");
             return;
@@ -22,15 +22,33 @@ public class Battle {
             Console.WriteLine($"It is not {attacker.Name}'s turn to attack.");
             return;
         }
-        else if (Weapon.Cooldown != 0) {
-            Console.WriteLine($"That weapon needs {Weapon.Cooldown} turns before it can fire again.");
-            return;
-        }
         else {
-            Attack(attacker, defender, Weapon);
+            List<Weapon> usedWeapons = new List<Weapon>();
+            foreach (Weapon weapon in Weapons) {
+                if (weapon.Cooldown > 0) {
+                    Console.WriteLine($"Unable to fire {weapon.Type} because it is on cooldown.");
+                }
+                else {
+                    Attack(attacker, defender, weapon);
+                    weapon.Cooldown = weapon.FireRate;
+                    usedWeapons.Add(weapon);
+                }
+            }
+            foreach (Weapon weapon in attacker.MissleWeapons) {
+                if (!usedWeapons.Contains(weapon)) {
+                    if (weapon.Cooldown > 0) {
+                        weapon.Cooldown--;
+                    }
+                }
+            }
+            foreach (Weapon weapon in attacker.EnergyWeapons) {
+                if (!usedWeapons.Contains(weapon)) {
+                    if (weapon.Cooldown > 0) {
+                        weapon.Cooldown--;
+                    }
+                }
+            }
             ActivePlayer = defender.Name;
-            Weapon.Cooldown = Weapon.FireRate;
-            IncrementCooldown(attacker);
         }
     }
 
@@ -83,18 +101,5 @@ public class Battle {
         Status = "Completed";
         WinnerName = attacker.Name;
         Console.WriteLine($"{attacker.Name} wins the battle!");
-    }
-
-    private void IncrementCooldown(Ship ship) {
-        foreach (Weapon weapon in ship.MissleWeapons) {
-            if (weapon.Cooldown > 0) {
-                weapon.Cooldown--;
-            }
-        }
-        foreach (Weapon weapon in ship.EnergyWeapons) {
-            if (weapon.Cooldown > 0) {
-                weapon.Cooldown--;
-            }
-        }
     }
 }
