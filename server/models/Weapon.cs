@@ -4,9 +4,11 @@ public class Weapon {
     public int ShieldDamage { get; set; }
     public int Range { get; set; }
     public int FireRate { get; set; }
+    public int Cooldown { get; set; }
     public int CriticalChance { get; set; }
     public double CriticalMultiplier { get; set; }
-    // critical chance math = if a random number between 1 and 10 (inclusive) is less than or equal to the critical chance num, critical hit occurs, damage is equal to critical hit damage.
+    // critical chance math = if a random number between 1 and 10 (inclusive) is less than or equal to the critical chance num, critical hit occurs.
+    // critiacl damage is equal to critical hit multiplier times damage.
 
     public Weapon(WeaponType type) {
         Type = type;

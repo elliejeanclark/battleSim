@@ -127,40 +127,4 @@ public class Ship {
                 throw new ArgumentException("Invalid ship type");
         }
     }
-
-    public void TakeDamage(Weapon weapon) {
-        WeaponType weaponType = weapon.Type;
-        int shieldDamage = weapon.ShieldDamage;
-        int hullDamage = weapon.HullDamage;
-        Random random = new Random();
-        int dodgeChance = random.Next(1, 21);
-        dodgeChance += Speed;
-        if (Size % 2 == 0) {
-            dodgeChance -= Size/2;
-        }
-        else {
-            dodgeChance -= (Size - 1) / 2;
-        }
-
-        if (dodgeChance > 15) {
-            Console.WriteLine($"{Name} dodged the attack!");
-            return;
-        }
-        else {
-            if (ShieldStrength > 0 && shieldDamage > 0) {
-                ShieldStrength -= shieldDamage;
-                if (ShieldStrength < 0) {
-                    ShieldStrength = 0;
-                }
-                Console.WriteLine($"{Name} took {shieldDamage} damage to shields!");
-            }
-            if (Health > 0 && hullDamage > 0) {
-                Health -= hullDamage;
-                if (Health < 0) {
-                    Health = 0;
-                }
-                Console.WriteLine($"{Name} took {hullDamage} damage to hull!");
-            }
-        }
-    }
 }
