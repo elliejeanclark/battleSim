@@ -18,15 +18,7 @@ namespace BattleSim.Server.Models {
         }
 
         public void TakeTurn(Ship attacker, Ship defender, List<Weapon> Weapons) {
-            if (Status != "In Progress") {
-                Console.WriteLine("Battle is not in progress.");
-                return;
-            }
-            else if (attacker.Name != ActivePlayer) {
-                Console.WriteLine($"It is not {attacker.Name}'s turn to attack.");
-                return;
-            }
-            else {
+            if (CheckNotCompleted && CheckIsTurn(attacker.Name)) {
                 List<Weapon> usedWeapons = new List<Weapon>();
                 foreach (Weapon weapon in Weapons) {
                     if (weapon.Cooldown > 0) {
@@ -36,27 +28,27 @@ namespace BattleSim.Server.Models {
                         if (CheckNotCompleted() == false) {
                             return;
                         }
-                    Attack(attacker, defender, weapon);
-                    weapon.Cooldown = weapon.FireRate;
-                    usedWeapons.Add(weapon);
-                }
-            }
-            
-            foreach (Weapon weapon in attacker.MissleWeapons) {
-                if (!usedWeapons.Contains(weapon)) {
-                    if (weapon.Cooldown > 0) {
-                        weapon.Cooldown--;
+                        Attack(attacker, defender, weapon);
+                        weapon.Cooldown = weapon.FireRate;
+                        usedWeapons.Add(weapon);
                     }
                 }
-            }
-            foreach (Weapon weapon in attacker.EnergyWeapons) {
-                if (!usedWeapons.Contains(weapon)) {
-                    if (weapon.Cooldown > 0) {
+                
+                foreach (Weapon weapon in attacker.MissleWeapons) {
+                    if (!usedWeapons.Contains(weapon)) {
+                        if (weapon.Cooldown > 0) {
                         weapon.Cooldown--;
+                        }
                     }
                 }
-            }
-            ActivePlayer = defender.Name;
+                foreach (Weapon weapon in attacker.EnergyWeapons) {
+                    if (!usedWeapons.Contains(weapon)) {
+                        if (weapon.Cooldown > 0) {
+                            weapon.Cooldown--;
+                        }
+                    }
+                }
+                ActivePlayer = defender.Name;
             }
         }
 
@@ -65,6 +57,17 @@ namespace BattleSim.Server.Models {
                 return true;
             }
             else {
+                Console.WriteLine("Battle is not in progress.");
+                return false;
+            }
+        }
+
+        private Boolean CheckIsTurn(string name) {
+            if (name == ActivePlayer) {
+                return true;
+            }
+            else {
+                Console.WriteLine($"It is not {name}'s turn to attack.");
                 return false;
             }
         }
