@@ -3,44 +3,41 @@
 <head>
   <meta charset="UTF-8" />
   <title>Ellie's Engineering Station</title>
-  <style>
-    nav button { margin: 0 5px; }
-    #content { padding: 20px; border: 1px solid #ccc; margin-top: 10px; }
-  </style>
+  <link rel="stylesheet" href="index.css">
 </head>
 <body>
 
-<nav>
-  <button data-page="home.html">Home</button>
-  <button data-page="about.html">About</button>
-  <button data-page="contact.html">Contact</button>
-</nav>
+    <nav>
+        <button data-page="login.html">Login</button>
+        <button data-page="damage-reports.html">Damage Reports</button>
+        <button data-page="teams.html">Teams</button>
+    </nav>
 
-<div id="content">Loading...</div>
+    <div id="content">Loading...</div>
 
-<script>
-  const contentDiv = document.getElementById('content');
+    <script>
+        const contentDiv = document.getElementById('content');
 
-  async function loadPage(page) {
-    try {
-      const response = await fetch(`pages/${page}`);
-      if (!response.ok) throw new Error('Page not found');
-      const html = await response.text();
-      contentDiv.innerHTML = html;
-    } catch (e) {
-      contentDiv.innerHTML = `<p>Error loading page.</p>`;
-    }
-  }
+        async function loadPage(page) {
+            try {
+            const response = await fetch(`pages/${page}`);
+            if (!response.ok) throw new Error('Page not found');
+            const html = await response.text();
+            contentDiv.innerHTML = html;
+            } catch (e) {
+            contentDiv.innerHTML = `<p>Error loading page.</p>`;
+            }
+        }
 
-  loadPage('home.html');
+        loadPage('login.html');
 
-  document.querySelectorAll('nav button').forEach(button => {
-    button.addEventListener('click', () => {
-      const page = button.getAttribute('data-page');
-      loadPage(page);
-    });
-  });
-</script>
+        document.querySelectorAll('nav button').forEach(button => {
+            button.addEventListener('click', () => {
+                const page = button.getAttribute('data-page');
+                loadPage(page);
+            });
+        });
+    </script>
 
 </body>
 </html>
