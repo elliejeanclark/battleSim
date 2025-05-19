@@ -1,12 +1,15 @@
-public enum ShipType
+namespace BattleSim.Server.Enums
 {
-    Fighter,
-    Explorer,
-    Freighter,
-    Cruiser,
-    Destroyer,
-    Carrier,
-    Cutter,
-    StealthCraft,
-    CargoShip
+    public enum ShipType
+    {
+        Fighter,
+        Explorer,
+        Freighter,
+        Cruiser,
+        Destroyer,
+        Carrier,
+        Cutter,
+        StealthCraft,
+        CargoShip
+    }
 }

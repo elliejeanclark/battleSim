@@ -1,8 +1,11 @@
-public enum WeaponType
+namespace BattleSim.Server.Enums
 {
-    Phaser,
-    QuantumTorpedoLauncher,
-    PhotonTorpedoLauncher,
-    EnergyLance,
-    Disruptor
+    public enum WeaponType
+    {
+        Phaser,
+        QuantumTorpedoLauncher,
+        PhotonTorpedoLauncher,
+        EnergyLance,
+        Disruptor
+    }
 }
